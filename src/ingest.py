@@ -88,8 +88,8 @@ def ingest_budget_allocation(ingest_month_allocation: str) -> pd.DataFrame:
     ingest_time_start = time.time()
     ingest_sections_status = {}
     ingest_sections_time = {}
-    print(f"🔍 [INGEST] Proceeding to ingest raw Budget Allocation at {datetime.now(ICT).strftime("%Y-%m-%d %H:%M:%S")}...")
-    logging.info(f"🔍 [INGEST] Proceeding to ingest raw Budget Allocation at {datetime.now(ICT).strftime("%Y-%m-%d %H:%M:%S")}...")
+    print(f"🔍 [INGEST] Proceeding to ingest Budget Allocation at {datetime.now(ICT).strftime("%Y-%m-%d %H:%M:%S")}...")
+    logging.info(f"🔍 [INGEST] Proceeding to ingest Budget Allocation at {datetime.now(ICT).strftime("%Y-%m-%d %H:%M:%S")}...")
 
     try:
 
@@ -197,15 +197,15 @@ def ingest_budget_allocation(ingest_month_allocation: str) -> pd.DataFrame:
         try:
             ingest_df_deduplicated = ingest_df_enforced.drop_duplicates()
             try:
-                print(f"🔍 [INGEST] Checking raw Budget Allocation table {raw_table_budget} existence...")
-                logging.info(f"🔍 [INGEST] Checking raw Budget Allocation table {raw_table_budget} existence...")
+                print(f"🔍 [INGEST] Checking Budget Allocation table {raw_table_budget} existence...")
+                logging.info(f"🔍 [INGEST] Checking Budget Allocation table {raw_table_budget} existence...")
                 google_bigquery_client.get_table(raw_table_budget)
                 ingest_table_existed = True
             except NotFound:
                 ingest_table_existed = False
             except Exception:
-                print(f"❌ [INGEST] Failed to check raw Budget Allocation table {raw_table_budget} existence due to {e}.")
-                logging.error(f"❌ [INGEST] Failed to check raw Budget Allocation table {raw_table_budget} existence due to {e}.")
+                print(f"❌ [INGEST] Failed to check Budget Allocation table {raw_table_budget} existence due to {e}.")
+                logging.error(f"❌ [INGEST] Failed to check Budget Allocation table {raw_table_budget} existence due to {e}.")
             if not ingest_table_existed:
                 print(f"⚠️ [INGEST] Budget Allocation table {raw_table_budget} not found then table creation will be proceeding...")
                 logging.info(f"⚠️ [INGEST] Budget Allocation table {raw_table_budget} not found then table creation will be proceeding...")
@@ -270,8 +270,8 @@ def ingest_budget_allocation(ingest_month_allocation: str) -> pd.DataFrame:
                     print(f"❌ [INGEST] Failed to create Budget Allocation table {raw_table_budget} due to {e}.")
                     logging.error(f"❌ [INGEST] Failed to create Budget Allocation table {raw_table_budget} due to {e}.")
             else:
-                print(f"🔄 [INGEST] Found raw Budget Allocation table {raw_table_budget} then existing row(s) deletion will be proceeding...")
-                logging.info(f"🔄 [INGEST] Found raw Budget Allocation table {raw_table_budget} then existing row(s) deletion will be proceeding...")            
+                print(f"🔄 [INGEST] Found Budget Allocation table {raw_table_budget} then existing row(s) deletion will be proceeding...")
+                logging.info(f"🔄 [INGEST] Found Budget Allocation table {raw_table_budget} then existing row(s) deletion will be proceeding...")            
         
         # Configuration for table delete keys
                 unique_keys_defined = ["raw_date_month"]                
