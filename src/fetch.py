@@ -96,6 +96,7 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
     # 1.1.2. Convert YYYY-MM input to mMMYYYY fetch_worksheet_name
         fetch_section_name = "[FETCH] Convert YYYY-MM input to mMMYYYY fetch_worksheet_name"
         fetch_section_start = time.time()
+        
         try:
             print(f"🔄 [FETCH] Converting {fetch_month_allocation} from YYYY-MM format to mMMYYY...")
             logging.info(f"🔄 [FETCH] Converting {fetch_month_allocation} from YYYY-MM format to mMMYYY...")
@@ -109,12 +110,14 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
             fetch_sections_status[fetch_section_name] = "failed"
             print(f"❌ [FETCH] Failed to convert {fetch_month_allocation} from YYYY-MM format to mMMYYY due to {e}.")
             logging.error(f"❌ [FETCH] Failed to convert {fetch_month_allocation} from YYYY-MM format to mMMYYY due to {e}.")            
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2)
 
     # 1.1.3. Initialize Google Secret Manager client
         fetch_section_name = "[FETCH] Initialize Google Secret Manager client"
         fetch_section_start = time.time()                
+        
         try:
             print(f"🔍 [FETCH] Initializing Google Secret Manager client for Google Cloud Platform project {PROJECT}...")
             logging.info(f"🔍 [FETCH] Initializing Google Secret Manager client for Google Cloud Platform project {PROJECT}...")
@@ -126,12 +129,14 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
             fetch_sections_status[fetch_section_name] = "failed"
             print(f"❌ [FETCH] Failed to initialize Google Secret Manager client for Google Cloud Platform project {PROJECT} due to {e}.")
             logging.error(f"❌ [FETCH] Failed to initialize Google Secret Manager client for Google Cloud Platform project {PROJECT} due to {e}.")
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2)        
 
     # 1.1.4. Get Budget Allocation from Google Secret Manager
         fetch_section_name = "[FETCH] Get Budget Allocation from Google Secret Manager"
         fetch_section_start = time.time()         
+        
         try:
             print(f"🔍 [FETCH] Retrieving Budget Allocation spreadsheet for account {ACCOUNT} from Google Secret Manager...")
             logging.info(f"🔍 [FETCH] Retrieving Budget Allocation spreadsheet for account {ACCOUNT} from Google Secret Manager...")
@@ -146,12 +151,14 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
             fetch_sections_status[fetch_section_name] = "failed"
             print(f"❌ [FETCH] Failed to retrieve Budget Allocation spreadsheet for account {ACCOUNT} from Google Secret Manager due to {e}.")
             logging.error(f"❌ [FETCH] Failed to retrieve Budget Allocation spreadsheet for account {ACCOUNT} from Google Secret Manager due to {e}.")
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2)
 
     # 1.1.5. Initialize Google Sheets client
         fetch_section_name = "[FETCH] Initialize Google Sheets client"
         fetch_section_start = time.time()            
+        
         try:
             print(f"🔍 [FETCH] Initializing Google Sheets client for spreadsheet {fetch_spreadsheet_id}...")
             logging.info(f"🔍 [FETCH] Initializing Google Sheets client for spreadsheet {fetch_spreadsheet_id}...")                
@@ -166,12 +173,14 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
             fetch_sections_status[fetch_section_name] = "failed"
             print(f"❌ [FETCH] Failed to initialize Google Sheets client due to {e}.")
             logging.error(f"❌ [FETCH] Failed to initialize Google Sheets client due to {e}.")
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2) 
     
     # 1.1.6. Make Google Sheets API call for worksheet recording
         fetch_section_name = "[FETCH] Make Google Sheets API call for worksheet recording"
         fetch_section_start = time.time()             
+        
         try:
             print(f"🔍 [FETCH] Retrieving {fetch_worksheet_name} in spreadsheet {fetch_spreadsheet_id} from Google Sheets API...")
             logging.info(f"🔍 [FETCH] Retrieving {fetch_worksheet_name} in spreadsheet {fetch_spreadsheet_id} from Google Sheets API...")
@@ -190,12 +199,14 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
             fetch_sections_status[fetch_section_name] = "failed"
             print(f"❌ [FETCH] Failed to retrieve worksheet rows from Google Sheets API due to {e}.")
             logging.error(f"❌ [FETCH] Failed to retrieve worksheet rows from Google Sheets API due to {e}.")
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2)
    
     # 1.1.7. Trigger to enforce schema for Budget Allocation
         fetch_section_name = "[FETCH] Trigger to enforce schema for Budget Allocation"
         fetch_section_start = time.time()              
+        
         try:            
             print(f"🔄 [FETCH] Trigger to enforce schema for Budget Allocation with {len(fetch_df_flattened)} row(s)...")
             logging.info(f"🔄 [FETCH] Trigger to enforce schema for Budget Allocation with {len(fetch_df_flattened)} row(s)...")
@@ -215,6 +226,7 @@ def fetch_budget_allocation(fetch_month_allocation: str) -> pd.DataFrame:
                 fetch_sections_status[fetch_section_name] = "failed"
                 print(f"❌ [FETCH] Failed to trigger Budget Allocation schema enforcement with {fetch_summary_enforced['schema_rows_output']}/{fetch_summary_enforced['schema_rows_input']} enforced row(s) in {fetch_summary_enforced['schema_time_elapsed']}s.")
                 logging.error(f"❌ [FETCH] Failed to trigger Budget Allocation schema enforcement with {fetch_summary_enforced['schema_rows_output']}/{fetch_summary_enforced['schema_rows_input']} enforced row(s) in {fetch_summary_enforced['schema_time_elapsed']}s.")
+        
         finally:
             fetch_sections_time[fetch_section_name] = round(time.time() - fetch_section_start, 2)
 
