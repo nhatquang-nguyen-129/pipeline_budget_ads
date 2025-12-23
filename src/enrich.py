@@ -86,6 +86,7 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
     # 1.1.2. Validate input for the staging Budget Allocation enrichment
     enrich_section_name = "[ENRICH] Validate input for the staging Budget Allocation enrichment"
     enrich_section_start = time.time()    
+    
     try:
         if enrich_df_input.empty:
             enrich_sections_status[enrich_section_name] = "failed"
@@ -95,6 +96,7 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
             enrich_sections_status[enrich_section_name] = "succeed"
             print("✅ [ENRICH] Successfully validated input for staging Budget Allocation enrichment.")
             logging.info("✅ [ENRICH] Successfully validated input for staging Budget Allocation enrichment.")
+    
     finally:
         enrich_sections_time[enrich_section_name] = round(time.time() - enrich_section_start, 2)
 
@@ -103,6 +105,7 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
     # 1.1.3. Enrich column name by unicode accent removal
         enrich_section_name = "[ENRICH] Enrich column name by unicode accent removal"
         enrich_section_start = time.time()      
+        
         try:
             print(f"🔄 [FETCH] Enrich column name for {len(enrich_df_input.columns)} column(s) of Budget Allocation by unicode accent removal...")
             logging.info(f"🔄 [FETCH] Enrich column name for {len(enrich_df_input.columns)} column(s) of Budget Allocation by unicode accent removal...")
@@ -135,12 +138,14 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
             enrich_sections_status[enrich_section_name] = "failed"
             print(f"❌ [FETCH] Failed to remove unicode accents from Budget Allocation column name due to {e}.")
             logging.error(f"❌ [FETCH] Failed to remove unicode accents from Budget Allocation column name due to {e}.")
+        
         finally:
             enrich_sections_time[enrich_section_name] = round(time.time() - enrich_section_start, 2)   
 
     # 1.1.4. Enrich table fields for staging Budget Allocation
         enrich_section_name = "[ENRICH] Enrich table fields for staging Budget Allocation"
         enrich_section_start = time.time()            
+        
         try: 
             print(f"🔍 [ENRICH] Enriching table fields for staging Budget Allocation with {len(enrich_df_accent)} row(s)...")
             logging.info(f"🔍 [ENRICH] Enriching table fields for staging Budget Allocation with {len(enrich_df_accent)} row(s)...")
@@ -162,12 +167,14 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
             enrich_sections_status[enrich_section_name] = "failed"
             print(f"❌ [ENRICH] Failed to enrich table fields for staging Budget Allocation due to {e}.")
             logging.error(f"❌ [ENRICH] Failed to enrich table fields for staging Budget Allocation due to {e}.")
+        
         finally:
             enrich_sections_time[enrich_section_name] = round(time.time() - enrich_section_start, 2)
 
     # 1.1.5. Enrich campaign fields for staging Budget Allocation
         enrich_section_name = "[ENRICH] Enrich campaign fields for staging Budget Allocation"
         enrich_section_start = time.time()            
+        
         try:
             print(f"🔍 [ENRICH] Enriching campaign fields for staging Budget Allocation with {len(enrich_df_table)} row(s)...")
             logging.info(f"🔍 [ENRICH] Enriching campaign fields for staging Budget Allocation with {len(enrich_df_table)} row(s)...")
@@ -185,12 +192,14 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
             enrich_sections_status[enrich_section_name] = "failed"
             print(f"❌ [ENRICH] Failed to enrich campaign fields for staging Budget Allocation due to {e}.")
             logging.error(f"❌ [ENRICH] Failed to enrich campaign fields for staging Budget Allocation due to {e}.")
+        
         finally:
             enrich_sections_time[enrich_section_name] = round(time.time() - enrich_section_start, 2)
 
     # 1.1.6. Enrich date fields for staging Budget Allocation
         enrich_section_name = "[ENRICH] Enrich date fields for staging Budget Allocation"
         enrich_section_start = time.time()            
+        
         try:
             print(f"🔍 [ENRICH] Enriching date fields for staging Budget Allocation with {len(enrich_df_campaign)} row(s)...")
             logging.info(f"🔍 [ENRICH] Enriching date fields for staging Budget Allocation with {len(enrich_df_campaign)} row(s)...")
@@ -210,6 +219,7 @@ def enrich_budget_fields(enrich_df_input: pd.DataFrame, enrich_table_id: str) ->
             enrich_sections_status[enrich_section_name] = "failed"
             print(f"❌ [ENRICH] Failed to enrich date fields for staging Budget Allocation due to {e}.")
             logging.error(f"❌ [ENRICH] Failed to enrich date fields for staging Budget Allocation due to {e}.")
+        
         finally:
             enrich_sections_time[enrich_section_name] = round(time.time() - enrich_section_start, 2) 
 
