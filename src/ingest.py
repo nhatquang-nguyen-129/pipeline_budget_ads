@@ -309,9 +309,13 @@ def ingest_budget_allocation(ingest_month_allocation: str) -> pd.DataFrame:
                     print(f"🔍 [INGEST] Creating temporary table contains duplicated Budget Allocation unique keys {unique_keys_config} for batch deletion...")
                     logging.info(f"🔍 [INGEST] Creating temporary table contains duplicated Budget Allocation unique keys {unique_keys_config} for batch deletion...")
                     temporary_table_id = f"{PROJECT}.{raw_dataset}.temp_table_campaign_metadata_delete_keys_{uuid.uuid4().hex[:8]}"
+                    temporary_df_value = pd.DataFrame(
+                        unique_keys_value,
+                        columns=unique_keys_config
+                    )
                     load_table_config = bigquery.LoadJobConfig(write_disposition="WRITE_TRUNCATE")
                     load_table_execute = google_bigquery_client.load_table_from_dataframe(
-                        unique_keys_config, 
+                        temporary_df_value,
                         temporary_table_id, 
                         job_config=load_table_config
                     )
@@ -325,8 +329,8 @@ def ingest_budget_allocation(ingest_month_allocation: str) -> pd.DataFrame:
                     logging.error(f"❌ [INGEST] Failed to create temporary Budget Allocation table {temporary_table_id} for batch deletion due to {e}.")
 
                 try:                        
-                    print(f"🔍 [INGEST] Deleting {len(unique_keys_value)} existing rows of Budget Allocation using batch deletion with unique key(s) {unique_keys_defined}...")
-                    logging.info(f"🔍 [INGEST] Deleting {len(unique_keys_value)} existing rows of Budget Allocation using batch deletion with unique key(s) {unique_keys_defined}...")
+                    print(f"🔍 [INGEST] Deleting existing rows of Budget Allocation using batch deletion with unique key(s) {unique_keys_defined}...")
+                    logging.info(f"🔍 [INGEST] Deleting existing rows of Budget Allocation using batch deletion with unique key(s) {unique_keys_defined}...")
                     query_delete_condition = " AND ".join([
                         f"CAST(main.{col} AS STRING) = CAST(temp.{col} AS STRING)"
                         for col in unique_keys_config
